@@ -1,6 +1,7 @@
 using Dalamud.Configuration;
 using Dalamud.Plugin;
 using System;
+using System.Numerics;
 
 namespace CursorCircle
 {
@@ -9,7 +10,10 @@ namespace CursorCircle
     {
         public int Version { get; set; } = 0;
 
-        public bool SomePropertyToBeSavedAndWithADefault { get; set; } = true;
+        public float CircleThickness { get; set; } = 2.0f;
+        public float CircleRadius { get; set; } = 20.0f;
+        public Vector4 CircleColor { get; set; } = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+        public bool OnlyShowInCombat { get; set; } = false;
 
         // the below exist just to make saving less cumbersome
         [NonSerialized]

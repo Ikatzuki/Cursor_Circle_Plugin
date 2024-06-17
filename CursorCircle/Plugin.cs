@@ -13,41 +13,48 @@ namespace CursorCircle
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
+        private IClientState ClientState { get; init; }
         public Configuration Configuration { get; init; }
 
         public readonly WindowSystem WindowSystem = new("CursorCircle");
-        private MainWindow MainWindow { get; init; }
+        private ConfigWindow configWindow { get; init; }
+        private CursorCircleDrawer CursorCircleDrawer { get; init; }
 
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager)
+            [RequiredVersion("1.0")] ICommandManager commandManager,
+            [RequiredVersion("1.0")] IClientState clientState)
         {
             PluginInterface = pluginInterface;
             CommandManager = commandManager;
+            ClientState = clientState;
 
             Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Configuration.Initialize(PluginInterface);
 
-            MainWindow = new MainWindow(this);
+            configWindow = new ConfigWindow(this);
+            CursorCircleDrawer = new CursorCircleDrawer(this, clientState);
 
-            WindowSystem.AddWindow(MainWindow);
+            WindowSystem.AddWindow(configWindow);
 
             CommandManager.AddHandler(CommandName, new CommandInfo(OnCommand)
             {
-                HelpMessage = "A useful message to display in /xlhelp"
+                HelpMessage = "Open cursor circle settings"
             });
 
             PluginInterface.UiBuilder.Draw += DrawUI;
+            PluginInterface.UiBuilder.Draw += CursorCircleDrawer.Draw;
 
             // Adds a button that toggles the display status of the main UI of the plugin
-            PluginInterface.UiBuilder.OpenMainUi += ToggleMainUI;
+            PluginInterface.UiBuilder.OpenConfigUi += ToggleMainUI;
         }
 
         public void Dispose()
         {
             WindowSystem.RemoveAllWindows();
 
-            MainWindow.Dispose();
+            configWindow.Dispose();
+            CursorCircleDrawer.Dispose();
 
             CommandManager.RemoveHandler(CommandName);
         }
@@ -60,6 +67,6 @@ namespace CursorCircle
 
         private void DrawUI() => WindowSystem.Draw();
 
-        public void ToggleMainUI() => MainWindow.Toggle();
+        public void ToggleMainUI() => configWindow.Toggle();
     }
 }
