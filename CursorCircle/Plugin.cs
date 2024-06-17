@@ -9,7 +9,7 @@ namespace CursorCircle
 {
     public sealed class Plugin : IDalamudPlugin
     {
-        private const string CommandName = "/pmycommand";
+        private const string CommandName = "/cursorcircle";
 
         private DalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }

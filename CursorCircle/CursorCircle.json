@@ -1,8 +1,8 @@
 {
   "Author": "Darling",
   "Name": "Cursor Circle",
-  "Punchline": "A short one-liner that shows up in /xlplugins.",
-  "Description": "A description that shows up in /xlplugins. List any major slash-command(s).",
+  "Punchline": "Shows a configurable circle around your cursor",
+  "Description": "A configurable circle around your cursor to help you not lose track of it!",
   "ApplicableVersion": "any",
   "Tags": [
     "Cursor Circle",
