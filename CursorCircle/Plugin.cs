@@ -11,7 +11,7 @@ namespace CursorCircle
     {
         private const string CommandName = "/cursorcircle";
 
-        private DalamudPluginInterface PluginInterface { get; init; }
+        private IDalamudPluginInterface PluginInterface { get; init; }
         private ICommandManager CommandManager { get; init; }
         private IClientState ClientState { get; init; }
         public Configuration Configuration { get; init; }
@@ -21,9 +21,9 @@ namespace CursorCircle
         private CursorCircleDrawer CursorCircleDrawer { get; init; }
 
         public Plugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager,
-            [RequiredVersion("1.0")] IClientState clientState)
+            IDalamudPluginInterface pluginInterface,
+            ICommandManager commandManager,
+            IClientState clientState)
         {
             PluginInterface = pluginInterface;
             CommandManager = commandManager;
